@@ -1,0 +1,27 @@
+Faire un affichage a la fois sur tkinter et dans le prompte
+genre : 
+
+  BEFORE:
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 17 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+
+  AFTER:
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 1 0 0 0 0
+0 0 0 2 1 2 0 0 0
+0 0 1 1 1 1 1 0 0
+0 0 0 2 1 2 0 0 0
+0 0 0 0 1 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+
+
+Un systeme de sauvegarde du canvas -> png
