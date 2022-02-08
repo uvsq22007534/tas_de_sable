@@ -7,13 +7,3 @@
 # https://github.com/uvsq-info/l1-python
 #########################################
 print("test")
-TEST2
-test au cas ou 
-
-
-ze¢ ẑ “ze
-77
-
-gfd
-hg gg gh
-dgsgs
