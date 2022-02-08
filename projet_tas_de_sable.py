@@ -7,3 +7,5 @@
 # https://github.com/uvsq-info/l1-python
 #########################################
 print("test")
+
+print("test2")
