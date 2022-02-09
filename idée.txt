@@ -26,6 +26,7 @@ genre :
 
 Un systeme de sauvegarde du canvas -> png
 
-boutton gestion du temps d'itération
+boutton gestion du temps d'itération (pause,changement temps etc...)
+
 
 
