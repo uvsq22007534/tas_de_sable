@@ -26,7 +26,8 @@ genre :
 
 Un systeme de sauvegarde du canvas -> png
 
-boutton gestion du temps d'itération (pause,changement temps etc...)
+boutton gestion du temps d'itération (pause,changement temps etc..., temps nécessaire pour l'execution...)    (import time // time.sleep(s)
+
 
 
 
