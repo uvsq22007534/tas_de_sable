@@ -26,7 +26,7 @@ root.title("tas de sable")
 root.geometry("600x550")
 canvas = tk.Canvas(root, width = a, height = b,bg="grey")
 colors = ["blue","red","green","grey"]
-configbasique=[[0,0,0],[0,4,0],[0,0,0]]
+configbasique=[[0,0,0],[0,8,0],[0,0,0]]
 
 
 ########################### FONCTIONS #######################################"
@@ -63,6 +63,7 @@ def basique():
 
 
 def cfgcourante():
+    print ("la configuration actuel est : ")
     print(printclear(configcourante))
     return
 
@@ -132,16 +133,20 @@ def launch():
             break
 
 def stabilisation():
-    for i in range(len(configcourante)):
-        while max (configcourante[i])>=4:
-            distrib()
+    while True:
+
+        for i in range(len(configcourante)):
+            if max (configcourante[i])>3:
+                distrib()
         else:
             break
 
-    print("Fin")   
-    print(i," Itérations on été nécessaire pour venir a bout de ce tas de sable !")        
-            
+    print("Fin !")   
+    print(i-1," Itérations on été nécessaire pour venir a bout de ce tas de sable !")        
+
+
 #Boutons
+
 exit = tk.Button(root, text ="Exit", command = root.destroy ,fg="red")
 exit.grid(row=0,column=0)
 
