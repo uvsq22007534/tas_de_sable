@@ -8,25 +8,27 @@
 #########################################
 
 
-#Importation des bibliothèques
+
+
+########################### Blibliothèques #######################################"
 
 
 import tkinter as tk
 import random as r
+import time 
 
 
+########################### PARAMETRE FENETRE + VARIABLE GLOBAL #######################################"
 
-#créarion de la fenêtre + gloablisation de variable taille
 global a,b,configbasique
-
-a, b = 10,10
+a, b = 100,100
 
 root = tk.Tk()
 root.title("tas de sable")
 root.geometry("600x550")
 canvas = tk.Canvas(root, width = a, height = b,bg="grey")
 colors = ["blue","red","green","grey"]
-configbasique=[[0,0,0],[0,8,0],[0,0,0]]
+configbasique=[[0,0,0],[0,4,0],[0,0,0]]
 
 
 ########################### FONCTIONS #######################################"
@@ -54,7 +56,9 @@ def Random():
 
     print(printclear(configrandom))
     configcourante=configrandom
+    coloration()  
 
+#Fonction qui définit la configuration basique comme configuration courante (et l'afffiche)
 def basique():
     global configcourante
 
@@ -62,6 +66,7 @@ def basique():
     print(printclear(configcourante))
 
 
+#Fonction qui affiche la configuration actuel dans le terminal !
 def cfgcourante():
     print ("la configuration actuel est : ")
     print(printclear(configcourante))
@@ -99,13 +104,16 @@ def distrib():
                     continue
             
     print("After")
-    print(printclear(configcourante))        
+    print(printclear(configcourante)) 
+    coloration()       
     return configcourante
 
-#Fonction dessinant un pixel
+#Fonction dessinant un pixel selon des coordonée i,j
 def draw_pixel(i,j,color):
     canvas.create_rectangle( (i, j)*2,fill=color,outline="" )
 
+
+#Fonction qui colore les pixel selon leurs valeurs 
 def coloration():
     for i in range (len(configcourante)):
         for j in range (len(configcourante)):
@@ -120,7 +128,7 @@ def coloration():
             else:
                 draw_pixel(i,j,"yellow")
 
-
+#je sais plus ca sert a quoi j'etait fatiguer 
 def launch():
     while True:
         for i in range (len(configcourante)):
@@ -132,20 +140,23 @@ def launch():
             print("no")
             break
 
+#Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
 def stabilisation():
     while True:
 
         for i in range(len(configcourante)):
             if max (configcourante[i])>3:
                 distrib()
+        
         else:
             break
 
     print("Fin !")   
-    print(i-1," Itérations on été nécessaire pour venir a bout de ce tas de sable !")        
+    print(i-1," Itérations on été nécessaire pour venir a bout de ce tas de sable !") 
 
 
-#Boutons
+
+########################### BOUTONS #######################################"
 
 exit = tk.Button(root, text ="Exit", command = root.destroy ,fg="red")
 exit.grid(row=0,column=0)
@@ -171,11 +182,14 @@ stabi.grid(row=0,column=2)
 
 courante=tk.Button(root, text ="Courante", command=cfgcourante)
 courante.grid(row=0,column=3)
-#cadrillage
+
+
+
+
+########################### grid #######################################"
 grid1=canvas.grid(row=10,column=4,rowspan=10,columnspan=10)
 
 
-#Test dessin d'un pixel au millieu du canvas
- 
-#boucle root
+
+########################### MAINLOOP du programme #######################################"
 root.mainloop()
