@@ -33,6 +33,7 @@ Changer l'affichage de un pixel pour une valeur de la liste 2d a -> une zone pou
 
 -> donc pouvoir cliquer sur le canvas (un clic = +1) donc chnagement de couleur + haut a droite nombre correspondant
 
+fonction retour en arriere 
 
 
 
