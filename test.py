@@ -17,7 +17,6 @@ import tkinter as tk
 import random as r
 import time
 
-from pyparsing import CaselessKeyword 
 
 
 ########################### PARAMETRE FENETRE + VARIABLE GLOBAL #######################################"
@@ -28,25 +27,24 @@ a, b = 750,750
 root = tk.Tk()
 root.title("tas de sable")
 root.geometry("1920x1080")
-canvas = tk.Canvas(root, width = a, height = b,bg="grey")
-txt1=tk.Text(root,height=5,width=35)
-colors = ["blue","red","green","grey"]
+canvas = tk.Canvas(root, width = a, height = b,bg="white")
+txt1=tk.Text(root,height=35,width=35)
 configbasique=[[0,0,0],[0,4,0],[0,0,0]]
-nbcase=35
+nbcase=30
 x0=1
 y0=1
-taillecase=22
-
+taillecase=25
+c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
 ########################### FONCTIONS #######################################"
 
 #Fonction générant aléatoirement une liste 2D de taille a,b (taille du canvas)
 def Random():
     global configcourante
     configrandom=[]
-    for i in range (a):
+    for i in range (nbcase):
         configrandom.append([])
 
-        for j in range (b):
+        for j in range (nbcase):
 
             try:
 
@@ -57,12 +55,34 @@ def Random():
                 continue
           
 
-    print("Configuration aléatoire crée : ")
-    print("")
+    #print("Configuration aléatoire crée : ")
+    #print("")
 
-    print(printclear(configrandom))
+    #print(printclear(configrandom))
     configcourante=configrandom
-    coloration()  
+
+def vide():
+    global configcourante
+    configvide=[]
+    for i in range (nbcase):
+        configvide.append([])
+
+        for j in range (nbcase):
+
+            try:
+
+                configvide[i].append(0)
+                
+
+            except IndexError:
+                continue
+          
+
+    #print("Configuration aléatoire crée : ")
+    #print("")
+
+    #print(printclear(configrandom))
+    configcourante=configvide
 
 
 def grille():
@@ -82,6 +102,7 @@ def basique():
 def cfgcourante():
     print ("la configuration actuel est : ")
     print(printclear(configcourante))
+    
     return
 
 
@@ -94,8 +115,8 @@ def printclear(liste1):
 
 #Test 1 de la distribution des grains de sables (pense a rajouter arg)
 def distrib():
-    print("Before")
-    print(printclear(configcourante))
+    #print("Before")
+    #print(printclear(configcourante))
     
     for i in range (len(configcourante)):
         for j in range (len(configcourante[i])):
@@ -115,14 +136,12 @@ def distrib():
                 else:
                     continue
             
-    print("After")
-    print(printclear(configcourante)) 
+    #print("After")
+    #print(printclear(configcourante)) 
     coloration()       
     return configcourante
 
-#Fonction dessinant un pixel selon des coordonée i,j
-def draw_pixel(i,j,color):
-    canvas.create_rectangle( (i, j)*2,fill=color,outline="" )
+
 
 
 #Fonction qui colore les pixel selon leurs valeurs 
@@ -130,15 +149,16 @@ def coloration():
     for i in range (len(configcourante)):
         for j in range (len(configcourante)):
             if configcourante[i][j]==1:
-                draw_pixel(i,j,"yellow")
+                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c1)
             elif configcourante[i][j]==0:
-                draw_pixel(i,j,"black")
+                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c0)
             elif configcourante[i][j]==2:
-                draw_pixel(i,j,"green")
+                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c2)
             elif configcourante[i][j]==3:
-                draw_pixel(i,j,"blue")
+                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c3)
             else:
-                draw_pixel(i,j,"yellow")
+                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c4)
+
 
 #je sais plus ca sert a quoi j'etais fatiguer 
 def launch():
@@ -159,9 +179,7 @@ def stabilisation():
         for i in range(len(configcourante)):
             if max (configcourante[i])>3:
                 distrib()
-        
-        else:
-            break
+        break
 
     print("Fin !")   
     print(i-1," Itérations on été nécessaire pour venir a bout de ce tas de sable !") 
@@ -173,13 +191,32 @@ def posmouse(event):
     txt1.insert("end","clic detecte en x="+str(event.x) + " et y = " + str(event.y))
     return (posx,posy)
 
-
-
-def clic(event):
-    return
-
-
-  
+def closemouse1(event):
+    posx,posy=event.x,event.y
+    objet =canvas.find_closest(posx, posy)
+    couleur = canvas.itemcget(objet[0], 'fill') 
+    if couleur == c0:
+        canvas.itemconfig(objet[0], fill=c1)
+    elif couleur == c1:
+        canvas.itemconfig(objet[0], fill=c2)
+    elif couleur ==c2:
+        canvas.itemconfig(objet[0], fill=c3)
+    elif couleur == c3:
+        canvas.itemconfig(objet[0], fill=c4)
+    
+    
+def closemouse2(event):
+    posx,posy=event.x,event.y
+    objet =canvas.find_closest(posx, posy)
+    couleur = canvas.itemcget(objet[0], 'fill') 
+    if couleur == c4:
+        canvas.itemconfig(objet[0], fill=c3)
+    elif couleur == c3:
+        canvas.itemconfig(objet[0], fill=c2)
+    elif couleur ==c2:
+        canvas.itemconfig(objet[0], fill=c1)
+    elif couleur == c1:
+        canvas.itemconfig(objet[0], fill=c0)
 
 ########################### BOUTONS #######################################"
 
@@ -211,15 +248,16 @@ courante.grid(row=0,column=3)
 affigrille=tk.Button(root, text ="grille", command=grille)
 affigrille.grid(row=0,column=4)
 
-
+cfgvide=tk.Button(root, text ="Vide", command=vide)
+cfgvide.grid(row=0,column=5)
 
 ########################### grid #######################################"
 grid1=canvas.grid(row=1,column=1)
 grid2=txt1.grid(row=1, column=2)
 
-canvas.bind("<Button-1>",posmouse)
+canvas.bind("<Button-1>",closemouse1)
 canvas.bind("<Motion>",posmouse)
-
+canvas.bind("<Button-3>",closemouse2)
 
 ########################### MAINLOOP du programme #######################################"
 root.mainloop()
