@@ -29,6 +29,12 @@ Un systeme de sauvegarde de la configuration -> fichier txt avec le configuratio
 
 boutton gestion du temps d'itération (pause,changement temps etc..., temps nécessaire pour l'execution...)    (import time // time.sleep(s)
 
+Changer l'affichage de un pixel pour une valeur de la liste 2d a -> une zone pour une valeur (jeu d'echec) 
+
+-> donc pouvoir cliquer sur le canvas (un clic = +1) donc chnagement de couleur + haut a droite nombre correspondant
+
+
+
 
 
 
