@@ -15,20 +15,27 @@
 
 import tkinter as tk
 import random as r
-import time 
+import time
+
 
 
 ########################### PARAMETRE FENETRE + VARIABLE GLOBAL #######################################"
 
 global a,b,configbasique
-a, b = 100,100
+a, b = 750,750
 
 root = tk.Tk()
 root.title("tas de sable")
-root.geometry("600x550")
-canvas = tk.Canvas(root, width = a, height = b,bg="grey")
-colors = ["blue","red","green","grey"]
+root.geometry("1920x1080")
+canvas = tk.Canvas(root, width = a, height = b,bg="white")
+txt1=tk.Text(root,height=35,width=35)
 configbasique=[[0,0,0],[0,4,0],[0,0,0]]
+nbcase=30
+x0=1
+y0=1
+taillecase=25
+c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
+it=0  
 
 
 ########################### FONCTIONS #######################################"
@@ -37,10 +44,10 @@ configbasique=[[0,0,0],[0,4,0],[0,0,0]]
 def Random():
     global configcourante
     configrandom=[]
-    for i in range (a):
+    for i in range (nbcase):
         configrandom.append([])
 
-        for j in range (b):
+        for j in range (nbcase):
 
             try:
 
@@ -49,27 +56,57 @@ def Random():
 
             except IndexError:
                 continue
-        
+          
 
-    print("Configuration aléatoire crée : ")
-    print("")
+    #print("Configuration aléatoire crée : ")
+    #print("")
 
-    print(printclear(configrandom))
+    #print(printclear(configrandom))
     configcourante=configrandom
-    coloration()  
+
+#Fonction qui crée une liste vide et la met en configuration courante
+def vide():
+    global configcourante
+    configvide=[]
+    for i in range (nbcase):
+        configvide.append([])
+
+        for j in range (nbcase):
+
+            try:
+
+                configvide[i].append(0)
+                
+
+            except IndexError:
+                continue
+          
+
+    #print("Configuration aléatoire crée : ")
+    #print("")
+
+    #print(printclear(configrandom))
+    configcourante=configvide
+
+#Fonction qui affiche la grille 
+def grille():
+    for i in range(nbcase+1):
+        canvas.create_line(x0+taillecase*i, y0,x0+taillecase*i,y0 + nbcase*taillecase)
+        canvas.create_line(x0, y0+taillecase*i,x0+nbcase*taillecase ,y0+taillecase*i)
 
 #Fonction qui définit la configuration basique comme configuration courante (et l'afffiche)
 def basique():
     global configcourante
 
     configcourante=configbasique
-    print(printclear(configcourante))
+    #print(printclear(configcourante))
 
 
 #Fonction qui affiche la configuration actuel dans le terminal !
 def cfgcourante():
     print ("la configuration actuel est : ")
     print(printclear(configcourante))
+    
     return
 
 
@@ -82,9 +119,10 @@ def printclear(liste1):
 
 #Test 1 de la distribution des grains de sables (pense a rajouter arg)
 def distrib():
-    print("Before")
-    print(printclear(configcourante))
-    
+    #print("Before")
+    #print(printclear(configcourante))
+    global it 
+    it+=1
     for i in range (len(configcourante)):
         for j in range (len(configcourante[i])):
 
@@ -97,38 +135,42 @@ def distrib():
                         configcourante[i][j-1]+=1
                         configcourante[i][j+1]+=1
                         configcourante[i+1][j]+=1
+                        
                     except IndexError:
                         continue
-                    
+                        
                 else:
                     continue
             
-    print("After")
-    print(printclear(configcourante)) 
-    coloration()       
+    #print("After")
+    #print(printclear(configcourante)) 
+    txt1.delete('1.0',"end")
+    txt1.insert("end",it,"itération !")
+    coloration()
     return configcourante
 
-#Fonction dessinant un pixel selon des coordonée i,j
-def draw_pixel(i,j,color):
-    canvas.create_rectangle( (i, j)*2,fill=color,outline="" )
+
 
 
 #Fonction qui colore les pixel selon leurs valeurs 
 def coloration():
+    global colorcarre
+    colorcarre=[]
     for i in range (len(configcourante)):
         for j in range (len(configcourante)):
             if configcourante[i][j]==1:
-                draw_pixel(i,j,"yellow")
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c1))
             elif configcourante[i][j]==0:
-                draw_pixel(i,j,"black")
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c0))
             elif configcourante[i][j]==2:
-                draw_pixel(i,j,"green")
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c2))
             elif configcourante[i][j]==3:
-                draw_pixel(i,j,"blue")
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c3))
             else:
-                draw_pixel(i,j,"yellow")
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c4))
 
-#je sais plus ca sert a quoi j'etait fatiguer 
+
+#je sais plus ca sert a quoi j'etais fatiguer 
 def launch():
     while True:
         for i in range (len(configcourante)):
@@ -142,17 +184,54 @@ def launch():
 
 #Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
 def stabilisation():
-    while True:
 
-        for i in range(len(configcourante)):
-            if max (configcourante[i])>3:
-                distrib()
-        
-        else:
-            break
+    for i in range(len(colorcarre)):
+        couleur = canvas.itemcget(i, 'fill') 
+        if couleur =="purple":
+            distrib()
 
-    print("Fin !")   
-    print(i-1," Itérations on été nécessaire pour venir a bout de ce tas de sable !") 
+    coloration()    
+    print("il a fallu ",i," intération pour venir a bout de ce tas de sable")
+
+
+   
+
+#Fonction qui permet d'obtenir la position en temps réel de la souris sur le canvas
+def posmouse(event):
+    posx,posy=event.x,event.y
+    txt1.delete('1.0',"end")
+    txt1.insert("end","clic detecte en x="+str(event.x) + " et y = " + str(event.y))
+    return (posx,posy)
+
+#Fonction qui permet de colorier une case sur la quelle on clique ! (augmente la couleur avec clique gauche)
+def closemouse1(event):
+    posx,posy=event.x,event.y
+    objet =canvas.find_closest(posx, posy)
+    couleur = canvas.itemcget(objet[0], 'fill') 
+    if couleur == c0:
+        canvas.itemconfig(objet[0], fill=c1)
+    elif couleur == c1:
+        canvas.itemconfig(objet[0], fill=c2)
+    elif couleur ==c2:
+        canvas.itemconfig(objet[0], fill=c3)
+    elif couleur == c3:
+        canvas.itemconfig(objet[0], fill=c4)
+    
+#Fonction qui permet de colorier une case sur la quelle on clique ! (décroit avec le clique droit)   
+def closemouse2(event):
+    posx,posy=event.x,event.y
+    objet =canvas.find_closest(posx, posy)
+    couleur = canvas.itemcget(objet[0], 'fill')
+    
+    if couleur == c4:
+        canvas.itemconfig(objet[0], fill=c3)
+
+    elif couleur == c3:
+        canvas.itemconfig(objet[0], fill=c2)
+    elif couleur ==c2:
+        canvas.itemconfig(objet[0], fill=c1)
+    elif couleur == c1:
+        canvas.itemconfig(objet[0], fill=c0)
 
 
 
@@ -162,16 +241,16 @@ exit = tk.Button(root, text ="Exit", command = root.destroy ,fg="red")
 exit.grid(row=0,column=0)
 
 Random1 = tk.Button(root, text ="Random", command=Random)
-Random1.grid(row=4,column=0)
+Random1.grid(row=1,column=0)
 
 distribution = tk.Button(root, text ="Distribution ", command=distrib)
-distribution.grid(row=5,column=0)
+distribution.grid(row=2,column=0)
 
 colo = tk.Button(root, text ="Coloration", command=coloration)
-colo.grid(row=6,column=0)
+colo.grid(row=3,column=0)
 
 base  = tk.Button(root, text ="Basique", command=basique)
-base.grid(row=7,column=0)
+base.grid(row=4,column=0)
 
 
 lancement=tk.Button(root, text ="Launch", command=launch)
@@ -183,13 +262,20 @@ stabi.grid(row=0,column=2)
 courante=tk.Button(root, text ="Courante", command=cfgcourante)
 courante.grid(row=0,column=3)
 
+affigrille=tk.Button(root, text ="grille", command=grille)
+affigrille.grid(row=0,column=4)
 
-
+cfgvide=tk.Button(root, text ="Vide", command=vide)
+cfgvide.grid(row=0,column=5)
 
 ########################### grid #######################################"
-grid1=canvas.grid(row=10,column=4,rowspan=10,columnspan=10)
+grid1=canvas.grid(row=1,column=1)
+grid2=txt1.grid(row=1, column=2)
 
-
+########################### bind #######################################"
+canvas.bind("<Button-1>",closemouse1)
+canvas.bind("<Motion>",posmouse)
+canvas.bind("<Button-3>",closemouse2)
 
 ########################### MAINLOOP du programme #######################################"
 root.mainloop()

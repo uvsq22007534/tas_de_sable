@@ -35,6 +35,9 @@ x0=1
 y0=1
 taillecase=25
 c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
+it=0  
+
+
 ########################### FONCTIONS #######################################"
 
 #Fonction générant aléatoirement une liste 2D de taille a,b (taille du canvas)
@@ -95,7 +98,7 @@ def basique():
     global configcourante
 
     configcourante=configbasique
-    print(printclear(configcourante))
+    #print(printclear(configcourante))
 
 
 #Fonction qui affiche la configuration actuel dans le terminal !
@@ -117,7 +120,8 @@ def printclear(liste1):
 def distrib():
     #print("Before")
     #print(printclear(configcourante))
-    
+    global it 
+    it+=1
     for i in range (len(configcourante)):
         for j in range (len(configcourante[i])):
 
@@ -130,15 +134,18 @@ def distrib():
                         configcourante[i][j-1]+=1
                         configcourante[i][j+1]+=1
                         configcourante[i+1][j]+=1
+                        
                     except IndexError:
                         continue
-                    
+                        
                 else:
                     continue
             
     #print("After")
     #print(printclear(configcourante)) 
-    coloration()       
+    txt1.delete('1.0',"end")
+    txt1.insert("end",it,"itération !")
+    coloration()
     return configcourante
 
 
@@ -146,18 +153,21 @@ def distrib():
 
 #Fonction qui colore les pixel selon leurs valeurs 
 def coloration():
+    global colorcarre
+    colorcarre=[]
     for i in range (len(configcourante)):
         for j in range (len(configcourante)):
             if configcourante[i][j]==1:
-                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c1)
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c1))
             elif configcourante[i][j]==0:
-                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c0)
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c0))
             elif configcourante[i][j]==2:
-                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c2)
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c2))
             elif configcourante[i][j]==3:
-                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c3)
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c3))
             else:
-                canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c4)
+                colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c4))
+        
 
 
 #je sais plus ca sert a quoi j'etais fatiguer 
@@ -174,15 +184,15 @@ def launch():
 
 #Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
 def stabilisation():
-    while True:
+    for i in range(len(colorcarre)):
+        couleur = canvas.itemcget(i, 'fill') 
+        if couleur =="purple":
+            distrib()
+    
+    coloration()    
+    print("il a fallu ",i," intération pour venir a bout de ce tas de sable")
 
-        for i in range(len(configcourante)):
-            if max (configcourante[i])>3:
-                distrib()
-        break
-
-    print("Fin !")   
-    print(i-1," Itérations on été nécessaire pour venir a bout de ce tas de sable !") 
+    
 
 #Fonction qui permet d'obtenir la position en temps réel de la souris sur le canvas
 def posmouse(event):
@@ -217,6 +227,8 @@ def closemouse2(event):
         canvas.itemconfig(objet[0], fill=c1)
     elif couleur == c1:
         canvas.itemconfig(objet[0], fill=c0)
+
+
 
 ########################### BOUTONS #######################################"
 
