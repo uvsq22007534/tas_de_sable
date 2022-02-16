@@ -16,7 +16,7 @@
 import tkinter as tk
 import random as r
 import time
-
+from functools import partial
 
 
 ########################### PARAMETRE FENETRE + VARIABLE GLOBAL #######################################"
@@ -28,7 +28,7 @@ root = tk.Tk()
 root.title("tas de sable")
 root.geometry("1920x1080")
 canvas = tk.Canvas(root, width = a, height = b,bg="white")
-txt1=tk.Text(root,height=35,width=35)
+txt1=tk.Text(root,height=5,width=35)
 configbasique=[[0,0,0],[0,4,0],[0,0,0]]
 nbcase=30
 x0=1
@@ -63,6 +63,7 @@ def Random():
 
     #print(printclear(configrandom))
     configcourante=configrandom
+    coloration()
 
 #Fonction qui crée une liste vide et la met en configuration courante
 def vide():
@@ -122,6 +123,7 @@ def printclear(liste1):
 def distrib():
     #print("Before")
     #print(printclear(configcourante))
+
     global it 
     it+=1
     for i in range (len(configcourante)):
@@ -158,7 +160,7 @@ def coloration():
     global colorcarre
     colorcarre=[]
     for i in range (len(configcourante)):
-        for j in range (len(configcourante)):
+        for j in range (len(configcourante[i])):
             if configcourante[i][j]==1:
                 colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c1))
             elif configcourante[i][j]==0:
@@ -170,13 +172,30 @@ def coloration():
             else:
                 colorcarre.append(canvas.create_rectangle(x0 +taillecase*j,y0+taillecase*i,x0 +taillecase*(j+1),y0+taillecase*(i+1),fill=c4))
 
-
 #je sais plus ca sert a quoi j'etais fatiguer 
-def launch():
-    for i in range(60):
-        time.sleep(1)
-        distrib()
+def launch(speed):
+
+
+    global colorcarre
+    for i in range (len(colorcarre)):
+        couleur=canvas.itemcget(colorcarre[i],'fill')
+        while couleur=="purple":
+       
         
+            distrib()
+            root.after(speed)
+            root.update_idletasks()
+        else:
+            for j in range (len(configcourante)):
+                for k in range (len(configcourante[j])):
+                    if configcourante[j][k]>3:
+                        distrib()
+                        root.after(speed)
+                        root.update_idletasks()
+            
+    
+
+    
 
 
 #Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
@@ -234,9 +253,7 @@ def closemouse2(event):
     couleur = canvas.itemcget(objet[0], 'fill')
     poslisty=int(posy)//taillecase
     poslistx=int(event.x)//taillecase
-    print("rendu :")
-    print(' ')
-    print(poslisty)
+
     if couleur == c4:
         canvas.itemconfig(objet[0], fill=c3)
         configcourante[poslistx][poslisty]-=1
@@ -252,16 +269,40 @@ def closemouse2(event):
 
 
 
+def popup():
+    win = tk.Toplevel()
+    win.wm_title("Choix du temps d'itération")
+    win.geometry("800x200")
+    l200=200
+    l500=500
+    l1000=1000
+    l5000=5000
+    l = tk.Label(win, text="Choisissez un temps entre chaque itération !")
+    l.configure(font=("Comic", 15,))
+    l.grid(row=0, column=2)
+
+    b = tk.Button(win, text="0.2 seconde", command=partial(launch,(l200)))
+    b.grid(row=3, column=1)
+
+    c = tk.Button(win, text="0.5 seconde", command=partial(launch,(l500)))
+    c.grid(row=3, column=2)
+
+    d = tk.Button(win, text="1 seconde", command=partial(launch,(l1000)))
+    d.grid(row=3,column=3)
+
+    e = tk.Button(win, text="5 secondes", command=partial(launch,(l5000)))
+    e.grid(row=3, column=4)
+
 ########################### BOUTONS #######################################"
 
 exit = tk.Button(root, text ="Exit", command = root.destroy ,fg="red")
 exit.grid(row=0,column=0)
 
 Random1 = tk.Button(root, text ="Random", command=Random)
-Random1.grid(row=1,column=0)
+Random1.grid(row=2,column=0)
 
 distribution = tk.Button(root, text ="Distribution ", command=distrib)
-distribution.grid(row=2,column=0)
+distribution.grid(row=1,column=0)
 
 colo = tk.Button(root, text ="Coloration", command=coloration)
 colo.grid(row=3,column=0)
@@ -270,8 +311,8 @@ base  = tk.Button(root, text ="Basique", command=basique)
 base.grid(row=4,column=0)
 
 
-lancement=tk.Button(root, text ="Launch", command=launch)
-lancement.grid(row=0,column=1)
+pop=tk.Button(root, text ="LAUNCH", command=popup)
+pop.grid(row=0,column=1)
 
 stabi=tk.Button(root, text ="Stabilisation", command=stabilisation)
 stabi.grid(row=0,column=2)
