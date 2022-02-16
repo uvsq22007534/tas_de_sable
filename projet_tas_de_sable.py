@@ -84,9 +84,10 @@ def vide():
 
     #print("Configuration aléatoire crée : ")
     #print("")
+    #print(printclear(configrandom)
 
-    #print(printclear(configrandom))
     configcourante=configvide
+    coloration()
 
 #Fonction qui affiche la grille 
 def grille():
@@ -97,7 +98,7 @@ def grille():
 #Fonction qui définit la configuration basique comme configuration courante (et l'afffiche)
 def basique():
     global configcourante
-
+    configbasique=[[0,0,0],[0,4,0],[0,0,0]]
     configcourante=configbasique
     #print(printclear(configcourante))
 
@@ -172,15 +173,11 @@ def coloration():
 
 #je sais plus ca sert a quoi j'etais fatiguer 
 def launch():
-    while True:
-        for i in range (len(configcourante)):
-            if 4 in configcourante[i]:
-                    
-                coloration()
+    for i in range(60):
+        time.sleep(1)
+        distrib()
+        
 
-        else:
-            print("no")
-            break
 
 #Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
 def stabilisation():
@@ -194,7 +191,7 @@ def stabilisation():
     print("il a fallu ",i," intération pour venir a bout de ce tas de sable")
 
 
-   
+
 
 #Fonction qui permet d'obtenir la position en temps réel de la souris sur le canvas
 def posmouse(event):
@@ -205,33 +202,53 @@ def posmouse(event):
 
 #Fonction qui permet de colorier une case sur la quelle on clique ! (augmente la couleur avec clique gauche)
 def closemouse1(event):
+    global poslistx,poslisty,configcourante
+    poslistx=0
+    poslisty=0
     posx,posy=event.x,event.y
     objet =canvas.find_closest(posx, posy)
     couleur = canvas.itemcget(objet[0], 'fill') 
+    poslisty=int(posy)//taillecase
+    poslistx=int(event.x)//taillecase
     if couleur == c0:
         canvas.itemconfig(objet[0], fill=c1)
+        configcourante[poslistx][poslisty]+=1
     elif couleur == c1:
         canvas.itemconfig(objet[0], fill=c2)
+        configcourante[poslistx][poslisty]+=1
     elif couleur ==c2:
         canvas.itemconfig(objet[0], fill=c3)
+        configcourante[poslistx][poslisty]+=1
     elif couleur == c3:
         canvas.itemconfig(objet[0], fill=c4)
+        configcourante[poslistx][poslisty]+=1
+    print(printclear(configcourante))
     
 #Fonction qui permet de colorier une case sur la quelle on clique ! (décroit avec le clique droit)   
 def closemouse2(event):
+    global poslistx,poslisty
+    poslistx=0
+    poslisty=0
     posx,posy=event.x,event.y
     objet =canvas.find_closest(posx, posy)
     couleur = canvas.itemcget(objet[0], 'fill')
-    
+    poslisty=int(posy)//taillecase
+    poslistx=int(event.x)//taillecase
+    print("rendu :")
+    print(' ')
+    print(poslisty)
     if couleur == c4:
         canvas.itemconfig(objet[0], fill=c3)
-
+        configcourante[poslistx][poslisty]-=1
     elif couleur == c3:
         canvas.itemconfig(objet[0], fill=c2)
+        configcourante[poslistx][poslisty]-=1
     elif couleur ==c2:
         canvas.itemconfig(objet[0], fill=c1)
+        configcourante[poslistx][poslisty]-=1
     elif couleur == c1:
         canvas.itemconfig(objet[0], fill=c0)
+        configcourante[poslistx][poslisty]-=1
 
 
 
