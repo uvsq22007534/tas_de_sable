@@ -35,7 +35,7 @@ Changer l'affichage de un pixel pour une valeur de la liste 2d a -> une zone pou
 
 fonction retour en arriere 
 
-
+faire un jeu quand on clique sur un carré 4 ca itére et le but c'est daller le plsu vite possible
 
 
 
