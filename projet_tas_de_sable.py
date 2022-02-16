@@ -36,13 +36,14 @@ y0=1
 taillecase=25
 c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
 it=0  
-
+configsave=[]
 
 ########################### FONCTIONS #######################################"
 
 #Fonction générant aléatoirement une liste 2D de taille a,b (taille du canvas)
 def Random():
-    global configcourante
+
+    global configcourante,configsave
     configrandom=[]
     for i in range (nbcase):
         configrandom.append([])
@@ -62,12 +63,18 @@ def Random():
     #print("")
 
     #print(printclear(configrandom))
+    try:
+        configsave=configcourante
+    except NameError:
+        pass
+
+
     configcourante=configrandom
     coloration()
 
 #Fonction qui crée une liste vide et la met en configuration courante
 def vide():
-    global configcourante
+    global configcourante,configsave
     configvide=[]
     for i in range (nbcase):
         configvide.append([])
@@ -86,6 +93,10 @@ def vide():
     #print("Configuration aléatoire crée : ")
     #print("")
     #print(printclear(configrandom)
+    try:
+        configsave=configcourante
+    except NameError:
+        pass
 
     configcourante=configvide
     coloration()
@@ -98,8 +109,13 @@ def grille():
 
 #Fonction qui définit la configuration basique comme configuration courante (et l'afffiche)
 def basique():
-    global configcourante
+    global configcourante,configsave
     configbasique=[[0,0,0],[0,4,0],[0,0,0]]
+    try:
+        configsave=configcourante
+    except NameError:
+        pass
+
     configcourante=configbasique
     #print(printclear(configcourante))
 
@@ -121,11 +137,12 @@ def printclear(liste1):
 
 #Test 1 de la distribution des grains de sables (pense a rajouter arg)
 def distrib():
+    global configsave
     #print("Before")
     #print(printclear(configcourante))
+    configsave=configcourante
 
-    global it 
-    it+=1
+
     for i in range (len(configcourante)):
         for j in range (len(configcourante[i])):
 
@@ -179,7 +196,7 @@ def launch(speed):
     global colorcarre
     for i in range (len(colorcarre)):
         couleur=canvas.itemcget(colorcarre[i],'fill')
-        while couleur=="purple":
+        if couleur=="purple":
        
         
             distrib()
@@ -192,6 +209,10 @@ def launch(speed):
                         distrib()
                         root.after(speed)
                         root.update_idletasks()
+                    else:
+                        pass
+
+        
             
     
 
@@ -293,6 +314,28 @@ def popup():
     e = tk.Button(win, text="5 secondes", command=partial(launch,(l5000)))
     e.grid(row=3, column=4)
 
+def undo():
+    global configcourante
+    configcourante=configsave
+    print(configsave)
+    coloration()
+
+def save():
+ 
+    # Enregistre ta liste dans ton fichier.txt
+    with open('fichier.txt', 'w') as f:
+        for item in configcourante:
+            f.write(f'{item}\n')
+
+def load():
+    global configcourante
+    # Récupère ta liste
+    with open('fichier.txt', 'r') as f:
+        liste = f.read().splitlines()
+        configcourante=liste
+        coloration()
+
+
 ########################### BOUTONS #######################################"
 
 exit = tk.Button(root, text ="Exit", command = root.destroy ,fg="red")
@@ -326,6 +369,14 @@ affigrille.grid(row=0,column=4)
 cfgvide=tk.Button(root, text ="Vide", command=vide)
 cfgvide.grid(row=0,column=5)
 
+undob=tk.Button(root, text ="Undo", command=undo)
+undob.grid(row=0,column=6)
+
+save=tk.Button(root, text ="Save", command=save)
+save.grid(row=5,column=0)
+
+load=tk.Button(root, text ="Loado", command=load)
+load.grid(row=6,column=0)
 ########################### grid #######################################"
 grid1=canvas.grid(row=1,column=1)
 grid2=txt1.grid(row=1, column=2)
