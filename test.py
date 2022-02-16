@@ -173,14 +173,14 @@ def coloration():
 #je sais plus ca sert a quoi j'etais fatiguer 
 def launch():
     while True:
+        time.sleep(1)
+        distrib()
         for i in range (len(configcourante)):
-            if 4 in configcourante[i]:
-                    
-                coloration()
+            for j in range(len(configcourante[i])):
+                if configcourante[i][j]>3:
+                    pass
+        break
 
-        else:
-            print("no")
-            break
 
 #Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
 def stabilisation():
@@ -219,6 +219,7 @@ def closemouse2(event):
     posx,posy=event.x,event.y
     objet =canvas.find_closest(posx, posy)
     couleur = canvas.itemcget(objet[0], 'fill') 
+    print(time.time)
     if couleur == c4:
         canvas.itemconfig(objet[0], fill=c3)
     elif couleur == c3:
