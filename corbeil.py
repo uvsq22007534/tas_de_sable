@@ -193,3 +193,40 @@ grid1=canvas.grid(row=10,column=4,rowspan=10,columnspan=10)
 
 ########################### MAINLOOP du programme #######################################"
 root.mainloop()
+
+
+
+f couleur == c0:
+        canvas.itemconfig(objet[0], fill=c1)
+        configcourante[poslistx-1][poslisty-1]+1
+    elif couleur == c1:
+        canvas.itemconfig(objet[0], fill=c2)
+        configcourante[poslistx-1][poslisty-1]+1
+    elif couleur ==c2:
+        canvas.itemconfig(objet[0], fill=c3)
+        configcourante[poslistx-1][poslisty-1]+1
+    elif couleur == c3:
+        canvas.itemconfig(objet[0], fill=c4)
+        configcourante[poslistx-1][poslisty-1]+1
+def stabilisation():
+    while True:
+        print()
+        for i in range(len(configcourante)):
+            for j in range (len(configcourante[i])):
+                cfgc=configcourante[i][j]
+                if configcourante.count(cfgc>3):
+                    distrib()
+                    time.sleep(1)
+                    coloration()
+        break
+
+
+  global colorcarre
+    for i in range (len(colorcarre)):
+        couleur=canvas.itemcget(colorcarre[i],'fill')
+        if couleur=="purple":
+        
+            distrib()
+            root.after(500)
+            root.update_idletasks()
+    

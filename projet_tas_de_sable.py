@@ -327,13 +327,6 @@ def save():
         for item in configcourante:
             f.write(f'{item}\n')
 
-def load():
-    global configcourante
-    # Récupère ta liste
-    with open('fichier.txt', 'r') as f:
-        liste = f.read().splitlines()
-        configcourante=liste
-        coloration()
 
 
 ########################### BOUTONS #######################################"
@@ -375,8 +368,9 @@ undob.grid(row=0,column=6)
 save=tk.Button(root, text ="Save", command=save)
 save.grid(row=5,column=0)
 
-load=tk.Button(root, text ="Loado", command=load)
-load.grid(row=6,column=0)
+
+
+
 ########################### grid #######################################"
 grid1=canvas.grid(row=1,column=1)
 grid2=txt1.grid(row=1, column=2)
