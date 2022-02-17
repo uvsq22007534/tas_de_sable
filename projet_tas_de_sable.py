@@ -15,7 +15,6 @@
 
 import tkinter as tk
 import random as r
-import time
 from functools import partial
 
 
