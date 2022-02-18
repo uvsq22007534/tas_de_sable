@@ -5,7 +5,7 @@
 # Nel RIVART
 # Morgan NOIRET
 # Bertille LANOIRE
-# https://github.com/uvsq-info/l1-python
+# https://github.com/uvsq22007534/tas_de_sable
 #########################################
 
 Mode d'emploi du programme :
