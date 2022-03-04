@@ -21,7 +21,7 @@ from functools import partial
 ########################### PARAMETRE FENETRE + VARIABLE GLOBAL #######################################"
 
 global a,b,configbasique
-a, b = 750,750
+a, b = 850,850
 
 root = tk.Tk()
 root.title("tas de sable")
@@ -29,10 +29,10 @@ root.geometry("1920x1080")
 canvas = tk.Canvas(root, width = a, height = b,bg="white")
 txt1=tk.Text(root,height=5,width=35)
 configbasique=[[0,0,0],[0,4,0],[0,0,0]]
-nbcase=30
+nbcase=85
 x0=1
 y0=1
-taillecase=25
+taillecase=10
 c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
 it=0  
 configsave=[]
@@ -261,7 +261,7 @@ def closemouse1(event):
     elif couleur == c3:
         canvas.itemconfig(objet[0], fill=c4)
         configcourante[poslistx][poslisty]+=1
-    print(printclear(configcourante))
+
     
 #Fonction qui permet de colorier une case sur la quelle on clique ! (décroit avec le clique droit)   
 def closemouse2(event):
@@ -325,6 +325,7 @@ def save():
     with open('fichier.txt', 'w') as f:
         for item in configcourante:
             f.write(f'{item}\n')
+    print("configuration enregistrée !")
 
 
 
