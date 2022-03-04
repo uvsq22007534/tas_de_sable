@@ -220,11 +220,19 @@ def launch(speed):
 
 #Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
 def stabilisation():
-
+    global colorcarre
     for i in range(len(colorcarre)):
-        couleur = canvas.itemcget(i, 'fill') 
+        couleur = canvas.itemcget(colorcarre[i], 'fill') 
         if couleur =="purple":
             distrib()
+
+        else:
+            for j in range (len(configcourante)):
+                for k in range (len(configcourante[j])):
+                    if configcourante[j][k]>3:
+                        distrib()
+                    else:
+                        pass
 
     coloration()    
     print("il a fallu ",i," intération pour venir a bout de ce tas de sable")
