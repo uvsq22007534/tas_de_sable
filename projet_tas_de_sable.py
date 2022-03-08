@@ -339,7 +339,8 @@ def closemouse2(event):
 def popup():
     win = tk.Toplevel()
     win.wm_title("Choix du temps d'itération")
-    win.geometry("1000x200")
+    win.geometry("850x200+1100+150")
+
     l50=50
     l200=200
     l500=500
