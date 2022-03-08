@@ -1,0 +1,86 @@
+taille possible de canvas : 
+
+global a,b,configbasique
+a, b = 850,850
+
+root = tk.Tk()
+root.title("tas de sable")
+root.geometry("1920x1080")
+canvas = tk.Canvas(root, width = a, height = b,bg="white")
+txt1=tk.Text(root,height=5,width=35)
+configbasique=[[0,0,0],[0,4,0],[0,0,0]]
+nbcase=85
+x0=1
+y0=1
+taillecase=10
+c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
+it=0  
+configsave=[]
+
+
+
+#################################################################################
+
+
+global a,b,configbasique
+a, b = 850,850
+
+root = tk.Tk()
+root.title("tas de sable")
+root.geometry("1920x1080")
+canvas = tk.Canvas(root, width = a, height = b,bg="white")
+txt1=tk.Text(root,height=5,width=35)
+configbasique=[[0,0,0],[0,4,0],[0,0,0]]
+nbcase=50
+x0=1
+y0=1
+taillecase=17
+c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
+it=0  
+configsave=[]
+
+
+####################################################################################
+
+
+
+global a,b,configbasique
+a, b = 850,850
+
+root = tk.Tk()
+root.title("tas de sable")
+root.geometry("1920x1080")
+canvas = tk.Canvas(root, width = a, height = b,bg="white")
+txt1=tk.Text(root,height=5,width=35)
+configbasique=[[0,0,0],[0,4,0],[0,0,0]]
+nbcase=450
+x0=1
+y0=1
+taillecase=2
+c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
+it=0  
+configsave=[]
+
+
+##################################################################################
+
+
+
+global a,b,configbasique
+a, b = 850,850
+
+root = tk.Tk()
+root.title("tas de sable")
+root.geometry("1920x1080")
+canvas = tk.Canvas(root, width = a, height = b,bg="white")
+txt1=tk.Text(root,height=5,width=35)
+configbasique=[[0,0,0],[0,4,0],[0,0,0]]
+nbcase=250
+x0=1
+y0=1
+taillecase=(3.4)
+c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
+it=0  
+configsave=[]
+
+
