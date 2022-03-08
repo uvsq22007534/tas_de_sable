@@ -38,7 +38,6 @@ it=0
 configsave=[]
 
 ########################### FONCTIONS #######################################"
-
 #Fonction générant aléatoirement une liste 2D de taille a,b (taille du canvas)
 def Random():
 
@@ -118,6 +117,37 @@ def basique():
     configcourante=configbasique
     #print(printclear(configcourante))
 
+def maxstable():
+
+    global configcourante,configsave
+    configmax=[]
+    for i in range (nbcase):
+        configmax.append([])
+
+        for j in range (nbcase):
+
+            try:
+
+                configmax[i].append(3)
+                
+
+            except IndexError:
+                continue
+          
+
+    #print("Configuration aléatoire crée : ")
+    #print("")
+
+    #print(printclear(configrandom))
+    try:
+        configsave=configcourante
+    except NameError:
+        pass
+
+
+    configcourante=configmax
+    coloration()
+
 
 #Fonction qui affiche la configuration actuel dans le terminal !
 def cfgcourante():
@@ -136,7 +166,7 @@ def printclear(liste1):
 
 #Test 1 de la distribution des grains de sables (pense a rajouter arg)
 def distrib():
-    global configsave
+
     #print("Before")
     #print(printclear(configcourante))
     configsave=configcourante
@@ -193,12 +223,14 @@ def launch(speed):
 
 
     global colorcarre
+    ite=1
     for i in range (len(colorcarre)):
         couleur=canvas.itemcget(colorcarre[i],'fill')
         if couleur=="purple":
        
         
             distrib()
+            ite+=1
             root.after(speed)
             root.update_idletasks()
         else:
@@ -206,12 +238,14 @@ def launch(speed):
                 for k in range (len(configcourante[j])):
                     if configcourante[j][k]>3:
                         distrib()
+                        ite+=1
                         root.after(speed)
                         root.update_idletasks()
                     else:
                         pass
-
-        
+    print("il a fallu ",ite," intération pour venir a bout de ce tas de sable")
+    txt1.delete('1.0',"end")
+    txt1.insert("end","il a fallu "+str(ite)+" itération pour venir a bout de ce tas de sable !")
             
     
 
@@ -221,21 +255,26 @@ def launch(speed):
 #Fonction qui permet d'obtenir une configuration sans case instable. -> configuration final 
 def stabilisation():
     global colorcarre
+    ite=0
     for i in range(len(colorcarre)):
         couleur = canvas.itemcget(colorcarre[i], 'fill') 
         if couleur =="purple":
             distrib()
+            ite+=1
 
         else:
             for j in range (len(configcourante)):
                 for k in range (len(configcourante[j])):
                     if configcourante[j][k]>3:
                         distrib()
+                        ite+=1
                     else:
                         pass
 
     coloration()    
-    print("il a fallu ",i," intération pour venir a bout de ce tas de sable")
+    print("il a fallu ",ite," intération pour venir a bout de ce tas de sable")
+    txt1.delete('1.0',"end")
+    txt1.insert("end","il a fallu "+str(ite)+" itération pour venir a bout de ce tas de sable !")
 
 
 
@@ -243,8 +282,8 @@ def stabilisation():
 #Fonction qui permet d'obtenir la position en temps réel de la souris sur le canvas
 def posmouse(event):
     posx,posy=event.x,event.y
-    txt1.delete('1.0',"end")
-    txt1.insert("end","clic detecte en x="+str(event.x) + " et y = " + str(event.y))
+    #txt1.delete('1.0',"end")
+    #txt1.insert("end","clic detecte en x="+str(event.x) + " et y = " + str(event.y))
     return (posx,posy)
 
 #Fonction qui permet de colorier une case sur la quelle on clique ! (augmente la couleur avec clique gauche)
@@ -300,7 +339,8 @@ def closemouse2(event):
 def popup():
     win = tk.Toplevel()
     win.wm_title("Choix du temps d'itération")
-    win.geometry("800x200")
+    win.geometry("1000x200")
+    l50=50
     l200=200
     l500=500
     l1000=1000
@@ -308,6 +348,9 @@ def popup():
     l = tk.Label(win, text="Choisissez un temps entre chaque itération !")
     l.configure(font=("Comic", 15,))
     l.grid(row=0, column=2)
+
+    a = tk.Button(win, text="0.05 seconde", command=partial(launch,(l50)))
+    a.grid(row=3, column=0)
 
     b = tk.Button(win, text="0.2 seconde", command=partial(launch,(l200)))
     b.grid(row=3, column=1)
@@ -321,11 +364,16 @@ def popup():
     e = tk.Button(win, text="5 secondes", command=partial(launch,(l5000)))
     e.grid(row=3, column=4)
 
+    
+
+
 def undo():
     global configcourante
     configcourante=configsave
-    print(configsave)
+    #print(configsave)
     coloration()
+
+
 
 def save():
  
@@ -373,9 +421,11 @@ cfgvide.grid(row=0,column=5)
 undob=tk.Button(root, text ="Undo", command=undo)
 undob.grid(row=0,column=6)
 
-save=tk.Button(root, text ="Save", command=save)
-save.grid(row=5,column=0)
+save1=tk.Button(root, text ="Save", command=save)
+save1.grid(row=5,column=0)
 
+max=tk.Button(root, text ="Max stable", command=maxstable)
+max.grid(row=6,column=0)
 
 
 
@@ -385,7 +435,7 @@ grid2=txt1.grid(row=1, column=2)
 
 ########################### bind #######################################"
 canvas.bind("<Button-1>",closemouse1)
-canvas.bind("<Motion>",posmouse)
+canvas.bind("<B1-Motion>" ,closemouse1)
 canvas.bind("<Button-3>",closemouse2)
 
 ########################### MAINLOOP du programme #######################################"
