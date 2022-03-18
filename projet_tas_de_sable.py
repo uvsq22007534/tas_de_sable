@@ -4,7 +4,7 @@
 # Nel RIVART
 # Morgan NOIRET
 # Bertille LANOIRE
-# https://github.com/uvsq-info/l1-python
+# https://github.com/uvsq22007534/tas_de_sable
 #########################################
 
 
@@ -29,13 +29,14 @@ root.geometry("1920x1080")
 canvas = tk.Canvas(root, width = a, height = b,bg="white")
 txt1=tk.Text(root,height=5,width=35)
 configbasique=[[0,0,0],[0,4,0],[0,0,0]]
-nbcase=85
+nbcase=50
 x0=1
 y0=1
-taillecase=10
+taillecase=17
 c0,c1,c2,c3,c4="grey","yellow","green","blue","purple"
 it=0  
 configsave=[]
+
 
 ########################### FONCTIONS #######################################"
 #Fonction générant aléatoirement une liste 2D de taille a,b (taille du canvas)
@@ -383,6 +384,16 @@ def save():
         for item in configcourante:
             f.write(f'{item}\n')
     print("configuration enregistrée !")
+    f.close()
+
+def load():
+    with open('fichier.txt','r') as f:
+        line = f.readline()
+        configcourante.append(line)
+        print(configcourante)
+        coloration()
+
+
 
 
 
@@ -428,11 +439,13 @@ save1.grid(row=5,column=0)
 max=tk.Button(root, text ="Max stable", command=maxstable)
 max.grid(row=6,column=0)
 
+laod=tk.Button(root, text ="Load", command=load)
+laod.grid(row=0,column=6)
 
 
 ########################### grid #######################################"
-grid1=canvas.grid(row=1,column=1)
-grid2=txt1.grid(row=1, column=2)
+grid1=canvas.grid(row=1,column=1 ,rowspan=6,columnspan=6)
+grid2=txt1.grid(row=4, column=7)
 
 ########################### bind #######################################"
 canvas.bind("<Button-1>",closemouse1)

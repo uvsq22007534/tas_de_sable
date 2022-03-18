@@ -43,11 +43,11 @@ Une fois le programme lancé, plusieurs boutons et le canvas apparaissent a l'é
         Clique gauche sur le canvas : + 1 sur la case cliquée
         Clique droit sur le canvas : -1 sur la case cliquée
 
-Comment utilisé le programme ? 
+Comment utiliser le programme ? 
 
 Pour utiliser le programme selectionner "Vide" pour faire apparaitre un canvas de 0 ou Random pour en générer un aléatoirement.
 
-Dessiner sur votre canvas vide (rappel : clique gauche +1, clique droit -1); ou passer a la suite !
+Dessiner sur votre canvas vide (rappel : clique gauche +1, clique droit -1) possibilité de rester cliquer pour dessiner en continue; ou passer a la suite !
 
 
 code couleur :
